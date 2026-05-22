@@ -96,8 +96,13 @@ function buildSystemPrompt(spaceType) {
 - clutter: 정리 상태 (0=어수선, 1=보통, 2=정돈)
 - layout_order: 가구 정렬감 (0=자유로움, 1=보통, 2=정렬됨)
 - shadow_on_desk: 작업면 그림자 발생 (0=없음, 1=있음)
-- annotations: 사진 위 표시할 포인트 배열 (최대 3개)
-  각 항목: {"type":"circle"|"arrow", "cx":0~100, "cy":0~100, "r":3~8(circle만), "x1":0~100,"y1":0~100,"x2":0~100,"y2":0~100(arrow만), "color":"warn"|"ok", "label":"레이블"}
+- annotations: 사진 위 표시할 영역 배열 (최대 3개, 중요 항목만)
+  rect 타입 사용 - 해당 물체/영역 전체를 감싸는 박스로 표시
+  형식: {"type":"rect", "x":좌상단X(0~100), "y":좌상단Y(0~100), "w":너비(5~50), "h":높이(5~50), "color":"warn"|"ok", "label":"침대 시야 차단 필요"}
+  - x,y: 박스 시작점 (이미지 대비 % 좌표)
+  - w,h: 박스 크기 (이미지 대비 %)
+  - color: warn(개선필요-빨강), ok(잘됨-초록)
+  - label: 해당 영역에 대한 짧은 설명 (예: "침대 시야 차단 필요", "측면 자연광 우수", "책상 조명 추가 권장")
 
 출력 형식 (이것만 출력):
 {
@@ -116,7 +121,9 @@ function buildSystemPrompt(spaceType) {
   "clutter": 2,
   "layout_order": 2,
   "shadow_on_desk": 0,
-  "annotations": []
+  "annotations": [
+    {"type":"rect", "x":60, "y":20, "w":35, "h":40, "color":"ok", "label":"측면 자연광 우수"}
+  ]
 }`;
 }
 
