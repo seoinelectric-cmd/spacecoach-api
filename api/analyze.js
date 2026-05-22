@@ -96,17 +96,15 @@ function buildSystemPrompt(spaceType) {
 - clutter: 정리 상태 (0=어수선, 1=보통, 2=정돈)
 - layout_order: 가구 정렬감 (0=자유로움, 1=보통, 2=정렬됨)
 - shadow_on_desk: 작업면 그림자 발생 (0=없음, 1=있음)
-- annotations: 사진 위 표시할 영역 (최대 3개)
+- annotations: 사진 위 표시할 포인트 (최대 3개)
 
-annotations 작성 규칙 (매우 중요):
-- type은 반드시 "rect" 사용
-- 해당 물체(침대, 책상, 창문 등)를 정확히 감싸는 박스 좌표
-- x, y: 물체의 좌상단 모서리 위치 (이미지 가로/세로 대비 %, 0~100)
-- w: 물체의 가로 너비 (이미지 가로 대비 %)
-- h: 물체의 세로 높이 (이미지 세로 대비 %)
-- 예시: 침대가 이미지 왼쪽 중앙에 있고 가로 40%, 세로 35% 크기라면
-  → {"type":"rect", "x":5, "y":30, "w":40, "h":35, "color":"warn", "label":"침대 시야 차단 필요"}
-- 물체의 실제 위치와 크기를 정확히 측정해서 입력
+annotations 작성 규칙:
+- type은 반드시 "point" 사용
+- 해당 물체의 중심점 좌표를 표시
+- x: 물체 중심의 가로 위치 (이미지 가로 대비 %, 0~100)
+- y: 물체 중심의 세로 위치 (이미지 세로 대비 %, 0~100)
+- color: warn(개선필요), ok(잘됨)
+- label: 짧은 설명
 
 출력 형식 (이것만 출력):
 {
@@ -126,8 +124,8 @@ annotations 작성 규칙 (매우 중요):
   "layout_order": 2,
   "shadow_on_desk": 0,
   "annotations": [
-    {"type":"rect", "x":5, "y":25, "w":45, "h":50, "color":"warn", "label":"침대 시야 차단 필요"},
-    {"type":"rect", "x":70, "y":10, "w":25, "h":30, "color":"ok", "label":"측면 자연광 우수"}
+    {"type":"point", "x":30, "y":50, "color":"warn", "label":"침대 시야 노출"},
+    {"type":"point", "x":10, "y":35, "color":"ok", "label":"측면 자연광"}
   ]
 }`;
 }
